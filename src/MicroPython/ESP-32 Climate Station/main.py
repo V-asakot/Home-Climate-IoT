@@ -32,8 +32,8 @@ while True:
 	status, tmp, hum = temperature()
 	if status:
          now = getTime()
-         json = '{ "temperature": %.2f, "humidity": %.2f, "time": %s }' % (tmp, hum, now)
-         mqttc.publish("temp_mqtt", json )
+         json = '{ "roomId": 1,"temperature": %.2f,"humidity": %.2f,"measurmentTime": "2023-08-22T17:52:22.683Z"}' % (tmp, hum)
+         mqttc.publish("climate-measured-event", json)
          print(json)
          sleep(10)
 
