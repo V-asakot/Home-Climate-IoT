@@ -1,7 +1,22 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
+using RoomsClimate.Service.Consumers.ClimateMeasured;
 using RoomsClimate.Service.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ClimateMeasuredConsumer, ClimateMeasuredConsumerDefinition>();
+
+    var rabbitConnectionString = builder.Configuration.GetSection("RabbitMqSettings")["ConnectionString"];
+    x.UsingRabbitMq ((context, cfg) =>
+    {
+        cfg.Host(rabbitConnectionString);
+        cfg.ConfigureEndpoints(context);
+    });  
+});
 
 // Add services to the container.
 
