@@ -17,6 +17,11 @@ builder.Services.AddMassTransit(x =>
         cfg.ConfigureEndpoints(context);
     });  
 });
+builder.Services.AddMediatR(x =>
+{
+    x.RegisterServicesFromAssembly(typeof(Program).Assembly);
+});
+builder.Services.AddDistributedMemoryCache();
 
 // Add services to the container.
 

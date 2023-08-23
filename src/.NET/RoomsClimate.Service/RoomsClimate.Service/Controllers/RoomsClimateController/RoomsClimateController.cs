@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RoomsClimate.Service.Features.GetClimateMeasurment;
+using MediatR;
+using Mapster;
 
 namespace RoomsClimate.Service.Controllers.RoomsClimateController
 {
@@ -7,10 +10,20 @@ namespace RoomsClimate.Service.Controllers.RoomsClimateController
     [ApiController]
     public class RoomClimateController : ControllerBase
     {
-        [HttpGet("{roomId}")]
-        public async Task<GetClimateMeasurmentResponse> GetClimateMeasurment(int roomId)
+        private readonly IMediator _mediator;
+        public RoomClimateController(IMediator mediator)
         {
-            throw new NotImplementedException();
+            _mediator = mediator;
+        }
+
+        [HttpGet("{roomId}")]
+        public async Task<GetClimateMeasurmentResponse> GetClimateMeasurment(int roomId, CancellationToken cancellationToken)
+        {
+            var querry = new GetClimateMeasurmentQuerry(roomId);
+            var climateMeasurment = await _mediator.Send(querry, cancellationToken);
+
+            var result = climateMeasurment.Adapt<GetClimateMeasurmentResponse>();
+            return result;
         }
     }
 }
