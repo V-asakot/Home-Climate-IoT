@@ -38,6 +38,9 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
                 .OrderByDescending(x => x.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
+            json = JsonConvert.SerializeObject(measurment);
+            await _cache.SetStringAsync(_lastMeasurmentCacheKey, json, cancellationToken);
+
             return new GetClimateMeasurmentResult(measurment.Temperature, measurment.Humidity, measurment.MeasurmentTime);
         }
     }

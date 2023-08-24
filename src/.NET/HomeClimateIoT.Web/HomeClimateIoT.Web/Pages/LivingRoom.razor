@@ -1,0 +1,49 @@
+﻿@page "/livingRoom"
+@inject HttpClient Http
+
+<PageTitle>Living room</PageTitle>
+
+<h1>Last measurment</h1>
+
+@if (lastMeasurment == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p role="status">Measurment Time: @lastMeasurment.MeasurmentTime</p>
+
+    <p role="status">Temperature: @lastMeasurment.Temperature</p>
+
+    <p role="status">Humidity: @lastMeasurment.Humidity</p>
+}
+
+@code {
+    private int room = 1;
+    public GetClimateMeasurmentResponse lastMeasurment;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var timer = new System.Threading.Timer(
+            e =>
+            {
+                InvokeAsync(async () => 
+                {
+                    lastMeasurment = await Http.GetFromJsonAsync<GetClimateMeasurmentResponse>($"api/RoomClimate/{room}");
+                    StateHasChanged();
+                });
+            },
+            null,
+            TimeSpan.Zero,
+            TimeSpan.FromSeconds(2)
+        );
+    }
+
+    public class GetClimateMeasurmentResponse
+    {
+        public float Temperature { get; set; }
+        public float Humidity { get; set; }
+        public DateTime MeasurmentTime { get; set; }
+    }
+}

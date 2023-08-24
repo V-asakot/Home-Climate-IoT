@@ -25,6 +25,7 @@ namespace RoomsClimate.Service.Features.SaveClimateMeasurment
         {
             var measurment = command.Adapt<ClimateMeasurment>();
             await _dbContext.Measurments.AddAsync(measurment, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
             string json = JsonConvert.SerializeObject(measurment);
             await _cache.SetStringAsync(_lastMeasurmentCacheKey, json, cancellationToken);
