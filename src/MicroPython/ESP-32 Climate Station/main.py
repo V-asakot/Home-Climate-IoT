@@ -1,18 +1,13 @@
-from umqtt.simple import MQTTClient
-from time import sleep
-import dht
-from machine import Pin
-import time
+def connect_to_rabbit():
+    print('Connect to Rabbit')
 
-print("Connect to Rabbit")
+    CLIENT_NAME = conf.mqtt_client
+    BROKER_ADDR = conf.mqtt_host
+    sensor = dht.DHT22(Pin(conf.sensor_pin))
+    mqttc = MQTTClient(CLIENT_NAME, BROKER_ADDR, keepalive=10)
+    mqttc.connect()
 
-CLIENT_NAME = 'guest'
-BROKER_ADDR = '192.168.0.102'
-sensor = dht.DHT22(Pin(14))
-mqttc = MQTTClient(CLIENT_NAME, BROKER_ADDR, keepalive=10)
-mqttc.connect()
-
-print("Connected to Rabbit")
+    print('Connected to Rabbit')
 
 def temperature():
     try:
@@ -28,12 +23,13 @@ def temperature():
         print('Failed to read sensor.')
         return False, 0, 0
     
+connect_to_rabbit()
 while True:
 	status, tmp, hum = temperature()
 	if status:
          now = getTime()
          json = '{ "roomId": 1,"temperature": %.2f,"humidity": %.2f,"measurmentTime": "2023-08-22T17:52:22.683Z"}' % (tmp, hum)
-         mqttc.publish("climate-measured-event", json)
+         mqttc.publish('climate-measured-event', json)
          print(json)
-         sleep(10)
+         sleep(conf.sensor_delay)
 
