@@ -4,6 +4,8 @@ using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using RoomsClimate.Service.Data;
 using RoomsClimate.Service.Data.Entities;
+using RoomsClimate.Service.Utils;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RoomsClimate.Service.Features.SaveClimateMeasurment
 {
@@ -27,8 +29,9 @@ namespace RoomsClimate.Service.Features.SaveClimateMeasurment
             await _dbContext.Measurments.AddAsync(measurment, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
+            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey, $"-{command.RoomId}");
             string json = JsonConvert.SerializeObject(measurment);
-            await _cache.SetStringAsync(_lastMeasurmentCacheKey, json, cancellationToken);
+            await _cache.SetStringAsync(cacheKey, json, cancellationToken);
         }
     }
 }

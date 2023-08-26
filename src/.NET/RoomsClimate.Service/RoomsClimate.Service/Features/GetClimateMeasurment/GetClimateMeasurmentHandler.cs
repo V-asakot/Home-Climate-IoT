@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using RoomsClimate.Service.Data;
 using RoomsClimate.Service.Features.GetClimateMeasurment;
 using RoomsClimate.Service.Features.SaveClimateMeasurment;
+using RoomsClimate.Service.Utils;
 using System.Diagnostics.Metrics;
 
 namespace RoomsClimate.Service.Features.GetLastMeasurment
@@ -26,7 +27,8 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
 
         public async Task<GetClimateMeasurmentResult> Handle(GetClimateMeasurmentQuerry querry, CancellationToken cancellationToken)
         {
-            var json = await _cache.GetStringAsync(_lastMeasurmentCacheKey, cancellationToken);
+            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey,$"-{querry.RoomId}");
+            var json = await _cache.GetStringAsync(cacheKey, cancellationToken);
             if (json is not null)
             {
                 var cachedResult = JsonConvert.DeserializeObject<GetClimateMeasurmentResult>(json);
@@ -39,7 +41,7 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
                 .FirstOrDefaultAsync(cancellationToken);
 
             json = JsonConvert.SerializeObject(measurment);
-            await _cache.SetStringAsync(_lastMeasurmentCacheKey, json, cancellationToken);
+            await _cache.SetStringAsync(cacheKey, json, cancellationToken);
 
             return new GetClimateMeasurmentResult(measurment.Temperature, measurment.Humidity, measurment.MeasurmentTime);
         }

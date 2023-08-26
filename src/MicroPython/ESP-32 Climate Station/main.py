@@ -1,8 +1,8 @@
 def connect_to_rabbit():
     print('Connect to Rabbit')
 
-    client_name = conf.mqtt_client
-    broker_host = conf.mqtt_host
+    client_name = conf['mqtt_client']
+    broker_host = conf['mqtt_host']
     mqttc = MQTTClient(client_name, broker_host, keepalive=10)
     mqttc.connect()
     
@@ -10,7 +10,7 @@ def connect_to_rabbit():
     return mqttc
     
 def defy_sensor_pin():
-    return dht.DHT22(Pin(conf.sensor_pin))
+    return dht.DHT22(Pin(conf['sensor_pin']))
 
 def temperature():
     try:
@@ -32,8 +32,8 @@ while True:
 	status, tmp, hum = temperature()
 	if status:
          now = get_time()
-         json = '{ "roomId": 1, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "2023-08-22T17:52:22.683Z" }' % (tmp, hum)
+         json = '{ "roomId": 1, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (tmp, hum, str(get_time()))
          mqttc.publish('climate-measured-event', json)
          print(json)
-         sleep(conf.sensor_delay)
+         sleep(conf['sensor_delay'])
 
