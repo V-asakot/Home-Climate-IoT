@@ -72,7 +72,7 @@ def get_time():
     minute = "{:02d}".format(time_tuple[4])
     second = "{:02d}".format(time_tuple[5])
 
-    return "{}-{}-{} {}:{}:{}".format(year, month, day, hour, minute, second)
+    return "{}-{}-{}T{}:{}:{}Z".format(year, month, day, hour, minute, second)
 
 conf = Config()
 conf.load('config.json')

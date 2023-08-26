@@ -3,7 +3,8 @@ def connect_to_rabbit():
 
     client_name = conf['mqtt_client']
     broker_host = conf['mqtt_host']
-    mqttc = MQTTClient(client_name, broker_host, keepalive=10)
+    keep_alive = conf['keep_alive']
+    mqttc = MQTTClient(client_name, broker_host, keepalive=keep_alive)
     mqttc.connect()
     
     print('Connected to Rabbit')

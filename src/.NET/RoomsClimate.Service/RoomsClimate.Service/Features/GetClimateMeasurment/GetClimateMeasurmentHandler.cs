@@ -27,7 +27,7 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
 
         public async Task<GetClimateMeasurmentResult> Handle(GetClimateMeasurmentQuerry querry, CancellationToken cancellationToken)
         {
-            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey,$"-{querry.RoomId}");
+            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey,querry.RoomId);
             var json = await _cache.GetStringAsync(cacheKey, cancellationToken);
             if (json is not null)
             {

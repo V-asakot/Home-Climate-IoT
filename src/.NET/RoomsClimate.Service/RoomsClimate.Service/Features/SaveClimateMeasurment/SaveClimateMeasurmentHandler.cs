@@ -29,7 +29,7 @@ namespace RoomsClimate.Service.Features.SaveClimateMeasurment
             await _dbContext.Measurments.AddAsync(measurment, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey, $"-{command.RoomId}");
+            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey, command.RoomId);
             string json = JsonConvert.SerializeObject(measurment);
             await _cache.SetStringAsync(cacheKey, json, cancellationToken);
         }
