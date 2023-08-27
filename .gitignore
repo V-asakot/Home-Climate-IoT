@@ -227,3 +227,5 @@ __pycache__/
 
 # Windows thumbnail cache files
 Thumbs.db
+/src/.NET/RoomsClimate.Service/RoomsClimate.Service/appsettings.json
+/src/.NET/RoomsClimate.Service/RoomsClimate.Service/appsettings.Development.json
