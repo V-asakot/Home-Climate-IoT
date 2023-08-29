@@ -20,10 +20,10 @@ def temperature():
         temp = sensor.temperature()
         hum = sensor.humidity()
         if (isinstance(temp, float) and isinstance(hum, float)) or (isinstance(temp, int) and isinstance(hum, int)):
-          return True, temp, hum
+            return True, temp, hum
         else:
-          print('Invalid sensor readings.')
-          return False, 0, 0
+            print('Invalid sensor readings.')
+            return False, 0, 0
     except OSError as e:
         print('Failed to read sensor.')
         return False, 0, 0
@@ -40,11 +40,10 @@ keep_alive = conf['keep_alive']
 mqttc = connect_to_rabbit(client_name, broker_host, keep_alive)
 
 while True:
-	status, tmp, hum = temperature()
-	if status:
-    	now = get_time()
-    	json = '{ "roomId": %i, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (room_id, tmp, hum, str(get_time()))
-    	mqttc.publish('climate-measured-event', json)
-    	print(json)
-    	sleep(sensor_delay)
-
+    status, tmp, hum = temperature()
+    if status:
+        now = get_time()
+        json = '{ "roomId": %i, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (room_id, tmp, hum, str(get_time()))
+        mqttc.publish('climate-measured-event', json)
+        print(json)
+        sleep(sensor_delay)

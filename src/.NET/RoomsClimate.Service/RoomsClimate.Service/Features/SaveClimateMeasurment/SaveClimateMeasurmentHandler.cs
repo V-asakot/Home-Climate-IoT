@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using RoomsClimate.Service.Data;
 using RoomsClimate.Service.Data.Entities;
@@ -11,10 +12,10 @@ namespace RoomsClimate.Service.Features.SaveClimateMeasurment
 {
     public class SaveClimateMeasurmentHandler : IRequestHandler<SaveClimateMeasurmentCommand>
     {
-        private readonly IDistributedCache _cache;
+        private readonly IMemoryCache _cache;
         private readonly ApplicationDbContext _dbContext;
         private readonly string _lastMeasurmentCacheKey;
-        public SaveClimateMeasurmentHandler(IDistributedCache cache, 
+        public SaveClimateMeasurmentHandler(IMemoryCache cache, 
             ApplicationDbContext dbContext,
             IConfiguration configuration)
         {
@@ -30,8 +31,7 @@ namespace RoomsClimate.Service.Features.SaveClimateMeasurment
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey, command.RoomId);
-            string json = JsonConvert.SerializeObject(measurment);
-            await _cache.SetStringAsync(cacheKey, json, cancellationToken);
+            _cache.Set(cacheKey, measurment);
         }
     }
 }

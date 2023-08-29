@@ -35,7 +35,7 @@ builder.Services.AddMediatR(x =>
 {
     x.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
-builder.Services.AddDistributedMemoryCache();
+builder.Services.AddMemoryCache();
 
 // Add services to the container.
 
