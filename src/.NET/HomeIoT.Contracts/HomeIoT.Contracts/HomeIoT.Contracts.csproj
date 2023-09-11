@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="RequestResponses\**" />
+    <EmbeddedResource Remove="RequestResponses\**" />
+    <None Remove="RequestResponses\**" />
+  </ItemGroup>
+
 </Project>

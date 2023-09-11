@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Domain.Events">
-      <HintPath>..\..\Domain.Events\Domain.Events\bin\Debug\net7.0\Domain.Events.dll</HintPath>
+    <Reference Include="HomeIoT.Contracts">
+      <HintPath>..\..\HomeIoT.Contracts\HomeIoT.Contracts\bin\Debug\net7.0\HomeIoT.Contracts.dll</HintPath>
     </Reference>
   </ItemGroup>
 

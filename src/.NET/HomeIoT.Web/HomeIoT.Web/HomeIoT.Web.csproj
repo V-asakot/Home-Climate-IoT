@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="HomeIoT.Contracts">
+      <HintPath>..\..\HomeIoT.Contracts\HomeIoT.Contracts\bin\Debug\net7.0\HomeIoT.Contracts.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -6,18 +6,6 @@ using RoomsClimate.Service.Consumers.ClimateMeasured;
 using RoomsClimate.Service.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalNetwork",
-        policyBuilder =>
-        {
-            var addreses = builder.Configuration.GetSection("CORS:AllowLocalNetwork").Get<string[]>();
-            policyBuilder
-               .AllowAnyHeader()
-                .AllowAnyMethod()
-                .WithOrigins(addreses);
-        });
-});
 
 builder.Services.AddMassTransit(x =>
 {
@@ -29,6 +17,16 @@ builder.Services.AddMassTransit(x =>
         cfg.Host(rabbitConnectionString);
         cfg.ConfigureEndpoints(context);
     });  
+});
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddMediatR(x =>
@@ -54,7 +52,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors("AllowLocalNetwork");
+    app.UseCors();
 }
 
 app.UseHttpsRedirection();

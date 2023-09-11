@@ -1,4 +1,4 @@
-﻿using Domain.Events.Climate;
+﻿using Iot.Common.Events.Climate;
 using Mapster;
 using MassTransit;
 using MediatR;

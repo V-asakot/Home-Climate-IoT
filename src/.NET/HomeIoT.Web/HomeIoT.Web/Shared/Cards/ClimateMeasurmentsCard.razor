@@ -1,0 +1,23 @@
+@namespace HomeIoT.Web.Shared
+
+<DefaultCard Title="Climate measurments" Header=@MeasurmentTime.ToString() Image="images/measurments_pic.jpg">
+    <div class="row">
+        <div class="col">
+            <img src="/icons/temperature.svg" class="img-fluid" style="max-width: 3rem">
+            <h6 class="card-text fs-2">@Temperature°C</h6>
+        </div>
+        <div class="col">
+            <img src="/icons/drop.svg" class="img-fluid" style="max-width: 3rem">
+            <h6 class="card-text fs-2">@Humidity%</h6>
+        </div>
+    </div>
+</DefaultCard>
+
+@code {
+    [Parameter]
+    public float Temperature { get; set; }
+    [Parameter]
+    public float Humidity { get; set; }
+    [Parameter]
+    public DateTime MeasurmentTime { get; set; }
+}

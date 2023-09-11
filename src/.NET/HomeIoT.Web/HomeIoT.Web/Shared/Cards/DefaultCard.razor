@@ -1,0 +1,25 @@
+﻿@namespace HomeIoT.Web.Shared
+
+<div class="card" style="width: 18rem;">
+    <img src=@Image class="card-img-top">
+    <div class="card-body">
+        <h5 class="card-title">@Title</h5>
+    </div>
+    <div class="card-body">
+        @ChildContent
+    </div>
+    <div class="card-header">
+        @Header
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public string Header { get; set; }
+    [Parameter]
+    public string Image { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

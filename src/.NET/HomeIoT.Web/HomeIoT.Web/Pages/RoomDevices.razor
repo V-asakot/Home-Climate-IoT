@@ -1,0 +1,52 @@
+﻿@page "/room-devices/{Room:int}"
+@inject HttpClient Http
+
+<PageTitle>@Header</PageTitle>
+
+<h1>@Header IoT</h1>
+
+@if (lastMeasurment == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    //вместо хардкода будет подгрузка компонентов на основе идентификаторов из сессии
+    <div class="d-flex flex-wrap gap-3">
+            <ClimateMeasurmentsCard Temperature=@lastMeasurment.Temperature Humidity=@lastMeasurment.Humidity MeasurmentTime=@lastMeasurment.MeasurmentTime />
+            <ThermostatCard ThermostatSetting=25/>
+    </div>
+}
+
+@code {
+    //заметка для себя: будет брать из сессии по id, а при остутвии перезагружать сессию
+    //сессия будет содержать список комнат и их девайсов ,загружая их из специального сервиса при старте приложения
+    private string Header { get; set; } = "LivingRoom";
+
+    [Parameter]
+    public int Room { get; set; }
+
+    public GetClimateMeasurmentResponse lastMeasurment;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var timer = new System.Threading.Timer(
+            e =>
+            {
+                InvokeAsync(async () => 
+                {
+                    lastMeasurment = await Http.GetFromJsonAsync<GetClimateMeasurmentResponse>($"api/RoomClimate/{Room}");
+                    StateHasChanged();
+                });
+            },
+            null,
+            TimeSpan.Zero,
+            TimeSpan.FromSeconds(2)
+        );
+    }
+}

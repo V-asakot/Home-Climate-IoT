@@ -1,4 +1,4 @@
-﻿namespace Domain.Events.Climate
+﻿namespace Iot.Common.Events.Climate
 {
     public class ClimateMeasuredEvent
     {

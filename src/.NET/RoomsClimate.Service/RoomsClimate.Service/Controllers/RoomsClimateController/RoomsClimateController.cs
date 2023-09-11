@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using IoT.Contracts.RequestResponse.Climate.RoomsClimateController;
 using Microsoft.AspNetCore.Mvc;
 using RoomsClimate.Service.Features.GetClimateMeasurment;
 using MediatR;
