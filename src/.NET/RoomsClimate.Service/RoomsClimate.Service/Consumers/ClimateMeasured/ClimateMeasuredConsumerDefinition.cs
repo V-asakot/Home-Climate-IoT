@@ -10,7 +10,7 @@ namespace RoomsClimate.Service.Consumers.ClimateMeasured
         }
 
         protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, IConsumerConfigurator<ClimateMeasuredConsumer> consumerConfigurator)
-        {     
+        {
             endpointConfigurator.ConfigureConsumeTopology = false;
             endpointConfigurator.ClearMessageDeserializers();
             endpointConfigurator.UseRawJsonSerializer();

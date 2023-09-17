@@ -2,5 +2,5 @@
 
 namespace RoomsClimate.Service.Features.GetClimateMeasurment
 {
-    public record GetClimateMeasurmentQuerry(int RoomId) : IRequest<GetClimateMeasurmentResult>;
+    public record GetClimateMeasurmentQuerry(Guid DeviceGuid) : IRequest<GetClimateMeasurmentResult>;
 }

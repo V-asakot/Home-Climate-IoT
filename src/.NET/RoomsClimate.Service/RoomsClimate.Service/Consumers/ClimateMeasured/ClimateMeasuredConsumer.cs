@@ -19,8 +19,8 @@ namespace RoomsClimate.Service.Consumers.ClimateMeasured
         public async Task Consume(ConsumeContext<ClimateMeasuredEvent> context)
         {
             var message = context.Message;
-            _logger.LogInformation($"Measurment received RoomId:{message.RoomId} DateTime:{message.MeasurmentTime} Temperature:{message.Temperature} Humidity:{message.Humidity}");
-            
+            _logger.LogInformation($"Measurment received DeviceGuid:{message.DeviceGuid} DateTime:{message.MeasurmentTime} Temperature:{message.Temperature} Humidity:{message.Humidity}");
+
             var command = message.Adapt<SaveClimateMeasurmentCommand>();
             await _mediator.Send(command);
         }

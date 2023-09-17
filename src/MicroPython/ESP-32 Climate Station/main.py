@@ -28,7 +28,7 @@ def temperature():
         print('Failed to read sensor.')
         return False, 0, 0
     
-room_id = conf['room_id']
+device_guid = conf['device_guid']
 sensor_delay = conf['sensor_delay']
 
 sensor_pin = conf['sensor_pin']
@@ -43,7 +43,7 @@ while True:
     status, tmp, hum = temperature()
     if status:
         now = get_time()
-        json = '{ "roomId": %i, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (room_id, tmp, hum, str(get_time()))
+        json = '{ "deviceGuid": %i, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (room_id, tmp, hum, str(get_time()))
         mqttc.publish('climate-measured-event', json)
         print(json)
         sleep(sensor_delay)

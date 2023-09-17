@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RoomsClimate.Service.Data.Entities;
-using System.Diagnostics.Metrics;
 
 namespace RoomsClimate.Service.Data
 {
@@ -11,6 +10,7 @@ namespace RoomsClimate.Service.Data
         }
 
         public DbSet<ClimateMeasurment> Measurments { get; set; }
+        public DbSet<Device> Devices { get; set; }
         public DbSet<Room> Rooms { get; set; }
     }
 }

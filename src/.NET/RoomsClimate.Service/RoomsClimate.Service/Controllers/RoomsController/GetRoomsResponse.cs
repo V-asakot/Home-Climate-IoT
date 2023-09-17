@@ -1,14 +1,14 @@
-﻿using RoomsClimate.Service.Data.Entities;
+﻿using RoomsClimate.Service.Data.Dto;
 
 namespace RoomsClimate.Service.Controllers.RoomsController
 {
     public class GetRoomsResponse
     {
-        public GetRoomsResponse(IEnumerable<Room> rooms)
+        public GetRoomsResponse(IEnumerable<RoomDto> rooms)
         {
             Rooms = rooms;
         }
 
-        public IEnumerable<Room> Rooms { get; set; } = null!;
+        public IEnumerable<RoomDto> Rooms { get; set; } = null!;
     }
 }

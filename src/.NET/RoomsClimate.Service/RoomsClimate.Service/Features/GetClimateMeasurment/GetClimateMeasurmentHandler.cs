@@ -1,15 +1,11 @@
-﻿using Mapster;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
-using Newtonsoft.Json;
 using RoomsClimate.Service.Data;
 using RoomsClimate.Service.Data.Entities;
 using RoomsClimate.Service.Features.GetClimateMeasurment;
-using RoomsClimate.Service.Features.SaveClimateMeasurment;
 using RoomsClimate.Service.Utils;
-using System.Diagnostics.Metrics;
 
 namespace RoomsClimate.Service.Features.GetLastMeasurment
 {
@@ -27,9 +23,9 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
             _lastMeasurmentCacheKey = configuration.GetSection("CacheKeys")["LastMeasurmentKey"]!;
         }
 
-        public async Task<GetClimateMeasurmentResult> Handle(GetClimateMeasurmentQuerry querry, CancellationToken cancellationToken)
+        public async Task<GetClimateMeasurmentResult?> Handle(GetClimateMeasurmentQuerry querry, CancellationToken cancellationToken)
         {
-            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey,querry.RoomId);
+            var cacheKey = CacheUtils.FormCacheKey(_lastMeasurmentCacheKey, querry.DeviceGuid);
             var measurment = _cache.Get<ClimateMeasurment>(cacheKey);
             if (measurment is not null)
             {
@@ -37,14 +33,20 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
                 return getClimateMeasurmentResult!;
             }
 
+            var device = await _dbContext.Devices.FirstOrDefaultAsync(x => x.DeviceGuid == querry.DeviceGuid);
+            if (device is null)
+            {
+                return null;
+            }
+
             measurment = await _dbContext.Measurments
-                .Where(x => x.Id == querry.RoomId)
+                .Where(x => x.DeviceId == device!.Id)
                 .OrderByDescending(x => x.Id)
                 .FirstOrDefaultAsync(cancellationToken);
 
             _cache.Set(cacheKey, measurment);
 
-            return new GetClimateMeasurmentResult(measurment.Temperature, measurment.Humidity, measurment.MeasurmentTime);
+            return new GetClimateMeasurmentResult(measurment!.Temperature, measurment.Humidity, measurment.MeasurmentTime);
         }
     }
 }

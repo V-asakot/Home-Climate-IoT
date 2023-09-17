@@ -30,21 +30,54 @@ namespace RoomsClimate.Service.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DeviceId")
+                        .HasColumnType("integer");
+
                     b.Property<float>("Humidity")
                         .HasColumnType("real");
 
                     b.Property<DateTime>("MeasurmentTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("integer");
-
                     b.Property<float>("Temperature")
                         .HasColumnType("real");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeviceId");
+
                     b.ToTable("Measurments");
+                });
+
+            modelBuilder.Entity("RoomsClimate.Service.Data.Entities.Device", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("DeviceGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DeviceName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("DeviceType")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("Devices");
                 });
 
             modelBuilder.Entity("RoomsClimate.Service.Data.Entities.Room", b =>
@@ -58,6 +91,9 @@ namespace RoomsClimate.Service.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("RoomGuid")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("RoomName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -65,6 +101,28 @@ namespace RoomsClimate.Service.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("RoomsClimate.Service.Data.Entities.ClimateMeasurment", b =>
+                {
+                    b.HasOne("RoomsClimate.Service.Data.Entities.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Device");
+                });
+
+            modelBuilder.Entity("RoomsClimate.Service.Data.Entities.Device", b =>
+                {
+                    b.HasOne("RoomsClimate.Service.Data.Entities.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 #pragma warning restore 612, 618
         }

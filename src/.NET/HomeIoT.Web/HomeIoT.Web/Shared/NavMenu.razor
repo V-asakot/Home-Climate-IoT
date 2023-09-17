@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inherits LayoutComponentBase
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">HomeClimateIoT.Web</a>
+        <a class="navbar-brand" href="">HomeIoT.Web</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,7 +17,7 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="room-devices/{@(1)}">
+            <NavLink class="nav-link" href="room-devices/7c9a1572-090e-4aa8-a735-d0d5a67871ef">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Living Room
             </NavLink>
         </div>
