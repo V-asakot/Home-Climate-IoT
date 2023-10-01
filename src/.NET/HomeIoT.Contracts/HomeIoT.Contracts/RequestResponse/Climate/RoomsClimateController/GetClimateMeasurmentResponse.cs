@@ -6,10 +6,5 @@ using System.Threading.Tasks;
 
 namespace IoT.Contracts.RequestResponse.Climate.RoomsClimateController
 {
-    public class GetClimateMeasurmentResponse
-    {
-        public float Temperature { get; set; }
-        public float Humidity { get; set; }
-        public DateTime MeasurmentTime { get; set; }
-    }
+    public record GetClimateMeasurmentResponse(float Temperature, float Humidity, DateTime MeasurmentTime);
 }

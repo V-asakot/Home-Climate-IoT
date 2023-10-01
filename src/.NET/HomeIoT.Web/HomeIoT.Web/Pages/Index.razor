@@ -1,7 +1,9 @@
-﻿@page "/"
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject IWebAssemblyHostEnvironment hostEnv
+@page "/"
 
 <PageTitle>Home IoT</PageTitle>
 
-<h1>Welcome to Home IoT web page</h1>
+<h1>Welcome</h1>
 
 <SurveyPrompt Title="This app contains IoT measurments and controls" />

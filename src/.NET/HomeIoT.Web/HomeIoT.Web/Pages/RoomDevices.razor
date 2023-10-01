@@ -1,5 +1,5 @@
 ﻿@page "/room-devices/{RoomGuid}"
-@inject HttpClient Http
+@inject IHttpClientFactory httpClientFactory
 
 <PageTitle>@Header</PageTitle>
 
@@ -34,13 +34,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-
+        var getRoomsClient = httpClientFactory.CreateClient("roomClimate");
         var timer = new System.Threading.Timer(
             e =>
             {
                 InvokeAsync(async () => 
                 {
-                    lastMeasurment = await Http.GetFromJsonAsync<GetClimateMeasurmentResponse>($"api/Measurments/cf6b8b55-d47a-4738-8313-8e57a7c4989d");
+                    lastMeasurment = await getRoomsClient.GetFromJsonAsync<GetClimateMeasurmentResponse>($"api/Measurments/3628ce16-3a8c-4ff7-94a6-4d57ca7fa65f");
                     StateHasChanged();
                 });
             },

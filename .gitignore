@@ -231,3 +231,11 @@ Thumbs.db
 /src/.NET/RoomsClimate.Service/RoomsClimate.Service/appsettings.Development.json
 /src/.NET/HomeIoTDevices.Service/HomeIoTDevices.Service/appsettings.json
 /src/.NET/HomeIoTDevices.Service/HomeIoTDevices.Service/appsettings.Development.json
+src/.NET/docker-compose.yaml
+src/.NET/HomeIoT.Web/HomeIoT.Web/launch.json
+src/.NET/start.bat
+src/.NET/RoomsClimate.Service/RoomsClimate.Service/appsettings.Docker.json
+src/.NET/HomeIoTDevices.Service/HomeIoTDevices.Service/appsettings.Docker.json
+src/.NET/HomeIoT.Web/HomeIoT.Web/wwwroot/appsettings.Production.json
+src/.NET/HomeIoT.Web/HomeIoT.Web/wwwroot/appsettings.json
+src/.NET/HomeIoT.Web/HomeIoT.Web/wwwroot/appsettings.Development.json

@@ -29,9 +29,16 @@ namespace HomeIoTDevices.Service.Features.AddDevice
             await _dbContext.Devices.AddAsync(device, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            await _bus.Publish<DeviceAddedEvent>(new(device.DeviceName, device.DeviceGuid, device.DeviceType));
+            var deviceAddedEvent = new DeviceAddedEvent(
+                device.DeviceName,
+                device.DeviceGuid,
+                device.Room.RoomGuid,
+                device.DeviceType
+            );
 
-            return new AddDeviceResult(device.DeviceGuid);
+            await _bus.Publish<DeviceAddedEvent>(deviceAddedEvent);
+
+            return new AddDeviceResult(device.DeviceGuid, device.DeviceName, device.DeviceType);
         }
     }
 }

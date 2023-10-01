@@ -46,7 +46,7 @@ namespace RoomsClimate.Service.Migrations
 
                     b.HasIndex("DeviceId");
 
-                    b.ToTable("Measurments");
+                    b.ToTable("Measurments", (string)null);
                 });
 
             modelBuilder.Entity("RoomsClimate.Service.Data.Entities.Device", b =>
@@ -77,7 +77,7 @@ namespace RoomsClimate.Service.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("Devices");
+                    b.ToTable("Devices", (string)null);
                 });
 
             modelBuilder.Entity("RoomsClimate.Service.Data.Entities.Room", b =>
@@ -100,7 +100,7 @@ namespace RoomsClimate.Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("Rooms", (string)null);
                 });
 
             modelBuilder.Entity("RoomsClimate.Service.Data.Entities.ClimateMeasurment", b =>

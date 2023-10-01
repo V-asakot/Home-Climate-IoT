@@ -1,4 +1,4 @@
-﻿using HomeIoTDevices.Service.Data.Dto;
+﻿using IoT.Contracts.RequestResponse.Devices.DevicesController;
 
 namespace HomeIoTDevices.Service.Features.GetRoomDevices
 {

@@ -13,8 +13,8 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<ClimateMeasuredConsumer, ClimateMeasuredConsumerDefinition>();
     x.AddConsumer<DeviceAddedEventConsumer>();
     x.AddConsumer<RoomAddedEventConsumer>();
-
     var rabbitConnectionString = builder.Configuration.GetSection("RabbitMqSettings")["ConnectionString"];
+
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(rabbitConnectionString);
@@ -50,7 +50,10 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+var context = app.Services.GetService<ApplicationDbContext>();
+context?.Database.EnsureCreated();
+
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();

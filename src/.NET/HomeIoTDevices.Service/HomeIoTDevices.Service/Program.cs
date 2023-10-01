@@ -11,7 +11,7 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(rabbitConnectionString);
-        //cfg.ConfigureEndpoints(context);
+        cfg.ConfigureEndpoints(context);
     });
 
     x.AddEntityFrameworkOutbox<ApplicationDbContext>(o =>
@@ -51,11 +51,14 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+var context = app.Services.GetService<ApplicationDbContext>();
+context?.Database.EnsureCreated();
+
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors();
+    app.UseCors("Development");
 }
 
 app.UseHttpsRedirection();

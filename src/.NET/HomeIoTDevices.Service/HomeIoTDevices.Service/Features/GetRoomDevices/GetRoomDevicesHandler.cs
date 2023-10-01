@@ -1,5 +1,5 @@
 ﻿using HomeIoTDevices.Service.Data;
-using HomeIoTDevices.Service.Data.Dto;
+using IoT.Contracts.RequestResponse.Devices.DevicesController;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

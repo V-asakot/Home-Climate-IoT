@@ -46,6 +46,11 @@ namespace RoomsClimate.Service.Features.GetLastMeasurment
 
             _cache.Set(cacheKey, measurment);
 
+            if(measurment is null)
+            {
+                return null;
+            }
+
             return new GetClimateMeasurmentResult(measurment!.Temperature, measurment.Humidity, measurment.MeasurmentTime);
         }
     }

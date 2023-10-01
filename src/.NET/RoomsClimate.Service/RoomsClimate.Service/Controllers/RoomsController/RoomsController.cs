@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IoT.Contracts.RequestResponse.Climate.RoomsController;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RoomsClimate.Service.Controllers.RoomsController
 {

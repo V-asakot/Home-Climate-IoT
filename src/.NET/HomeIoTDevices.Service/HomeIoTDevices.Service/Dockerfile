@@ -6,15 +6,19 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+RUN dotnet nuget add source http://host.docker.internal:5555/v3/index.json -n DockerSource
+
 WORKDIR /src
-COPY ["HomeIoTDevices.Service/HomeIoTDevices.Service.csproj", "HomeIoTDevices.Service/"]
+COPY ["HomeIoTDevices.Service.csproj", "HomeIoTDevices.Service/"]
 RUN dotnet restore "HomeIoTDevices.Service/HomeIoTDevices.Service.csproj"
-COPY . .
 WORKDIR "/src/HomeIoTDevices.Service"
-RUN dotnet build "HomeIoTDevices.Service.csproj" -c Release -o /app/build
+COPY . .
+
+RUN dotnet build "HomeIoTDevices.Service.csproj" -c Development -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "HomeIoTDevices.Service.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "HomeIoTDevices.Service.csproj" -c Development -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

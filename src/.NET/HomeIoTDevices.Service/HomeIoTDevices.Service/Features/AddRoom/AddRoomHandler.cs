@@ -25,7 +25,7 @@ namespace HomeIoTDevices.Service.Features.AddRoom
 
             await _bus.Publish<RoomAddedEvent>(new(room.RoomName, room.RoomGuid));
 
-            return new AddRoomResult(room.RoomGuid);
+            return new AddRoomResult(room.RoomGuid, room.RoomName);
         }
     }
 }

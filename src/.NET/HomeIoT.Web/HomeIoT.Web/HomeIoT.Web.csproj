@@ -7,14 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HomeIoT.Contracts" Version="1.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="HomeIoT.Contracts">
-      <HintPath>..\..\HomeIoT.Contracts\HomeIoT.Contracts\bin\Debug\net7.0\HomeIoT.Contracts.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 
 </Project>
