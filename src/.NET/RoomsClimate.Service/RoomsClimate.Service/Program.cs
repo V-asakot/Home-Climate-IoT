@@ -50,9 +50,6 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
-var context = app.Services.GetService<ApplicationDbContext>();
-context?.Database.EnsureCreated();
-
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     app.UseSwagger();

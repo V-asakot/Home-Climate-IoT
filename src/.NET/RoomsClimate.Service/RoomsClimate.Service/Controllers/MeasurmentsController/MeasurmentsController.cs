@@ -3,6 +3,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RoomsClimate.Service.Features.GetClimateMeasurment;
+using RoomsClimate.Service.Features.GetRoomClimateMeasurment;
 
 namespace RoomsClimate.Service.Controllers.RoomsClimateController
 {
@@ -29,6 +30,21 @@ namespace RoomsClimate.Service.Controllers.RoomsClimateController
 
             var result = climateMeasurment.Adapt<GetClimateMeasurmentResponse>();
             return Ok(result);
+        }
+
+        [HttpGet("room/{roomGuid}")]
+        public async Task<ActionResult<GetRoomClimateMeasurmentsResponse>> GetClimateMeasurments(Guid roomGuid, CancellationToken cancellationToken)
+        {
+            var querry = new GetRoomClimateMeasurmentsQuery(roomGuid);
+            var getRoomClimateMeasurmentsResult = await _mediator.Send(querry, cancellationToken);
+
+            if (getRoomClimateMeasurmentsResult is null)
+            {
+                return NotFound();
+            }
+
+            var getRoomClimateMeasurmentsResponse = getRoomClimateMeasurmentsResult.Adapt<GetRoomClimateMeasurmentsResponse>();
+            return Ok(getRoomClimateMeasurmentsResponse);
         }
     }
 }
