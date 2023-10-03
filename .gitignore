@@ -239,3 +239,5 @@ src/.NET/HomeIoTDevices.Service/HomeIoTDevices.Service/appsettings.Docker.json
 src/.NET/HomeIoT.Web/HomeIoT.Web/wwwroot/appsettings.Production.json
 src/.NET/HomeIoT.Web/HomeIoT.Web/wwwroot/appsettings.json
 src/.NET/HomeIoT.Web/HomeIoT.Web/wwwroot/appsettings.Development.json
+src/.NET/HomeIoT.Gateway/HomeIoT.Gateway/appsettings.json
+src/.NET/HomeIoT.Gateway/HomeIoT.Gateway/appsettings.Development.json
