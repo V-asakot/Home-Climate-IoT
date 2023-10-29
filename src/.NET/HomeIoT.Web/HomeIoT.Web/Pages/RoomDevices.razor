@@ -31,6 +31,7 @@ else
     public string RoomGuid { get; set; }
 
     public GetClimateMeasurmentResponse lastMeasurment;
+    private RenderFragment RenderFragment;
 
     protected override async Task OnInitializedAsync()
     {
@@ -41,6 +42,7 @@ else
                 InvokeAsync(async () => 
                 {
                     lastMeasurment = await getRoomsClient.GetFromJsonAsync<GetClimateMeasurmentResponse>($"api/Measurments/3628ce16-3a8c-4ff7-94a6-4d57ca7fa65f");
+                    
                     StateHasChanged();
                 });
             },
@@ -48,5 +50,20 @@ else
             TimeSpan.Zero,
             TimeSpan.FromSeconds(2)
         );
+    }
+
+    public void LoadComponent(ChangeEventArgs e)
+    {
+       
+        RenderFragment = builder =>
+        {
+            var currentComponent = FilterByType(typeof(ComponentBase), e.Value.ToString());
+            if (currentComponent != null)
+            {
+                builder.OpenComponent(0, currentComponent);
+                builder.CloseComponent();
+            }
+        };
+        StateHasChanged();
     }
 }

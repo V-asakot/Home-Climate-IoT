@@ -1,12 +1,8 @@
 using IoT.Contracts.RequestResponse.Climate.RoomsClimateController;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using RoomsClimate.Service.Data;
-using RoomsClimate.Service.Data.Entities;
-using RoomsClimate.Service.Features.GetRoomClimateMeasurment;
-using RoomsClimate.Service.Utils;
 
 namespace RoomsClimate.Service.Features.GetRoomClimateMeasurment
 {

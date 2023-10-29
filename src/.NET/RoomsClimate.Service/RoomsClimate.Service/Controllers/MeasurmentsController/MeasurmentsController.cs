@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RoomsClimate.Service.Features.GetClimateMeasurment;
 using RoomsClimate.Service.Features.GetRoomClimateMeasurment;
 
-namespace RoomsClimate.Service.Controllers.RoomsClimateController
+namespace RoomsClimate.Service.Controllers.MeasurmentsController
 {
     [Route("api/[controller]")]
     [ApiController]

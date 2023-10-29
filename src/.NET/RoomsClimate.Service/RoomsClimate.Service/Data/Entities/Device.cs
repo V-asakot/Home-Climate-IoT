@@ -12,6 +12,7 @@ namespace RoomsClimate.Service.Data.Entities
         public Room Room { get; set; } = null!;
         public string DeviceName { get; set; } = null!;
         public DeviceType DeviceType { get; set; }
+        public ThermostatSettings? ThermostatSettings { get; set; }
         public bool IsActive { get; set; }
     }
 }

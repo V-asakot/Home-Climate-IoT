@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HomeIoT.Contracts" Version="1.0.8" />
+    <PackageReference Include="HomeIoT.Contracts" Version="1.0.13" />
     <PackageReference Include="Mapster" Version="7.3.0" />
     <PackageReference Include="MassTransit" Version="8.1.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.0" />
