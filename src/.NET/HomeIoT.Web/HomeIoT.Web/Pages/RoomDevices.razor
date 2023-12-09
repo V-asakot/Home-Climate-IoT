@@ -1,11 +1,15 @@
 ﻿@page "/room-devices/{RoomGuid}"
-@inject IHttpClientFactory httpClientFactory
+@using HomeIoT.Web.Services;
+@using HomeIoT.Web.Services.RoomDevicesService;
+@using HomeIoT.Web.Shared.Component;
+@using HomeIoT.Web.Services.DevicesDataProviders;
+@inject RoomDevicesProviderService roomDevicesProvider
 
 <PageTitle>@Header</PageTitle>
 
 <h1>@Header IoT</h1>
 
-@if (lastMeasurment == null)
+@if (components == null)
 {
     <div class="d-flex justify-content-center">
         <div class="spinner-border" role="status">
@@ -15,34 +19,34 @@
 }
 else
 {
-    //вместо хардкода будет подгрузка компонентов на основе идентификаторов из сессии
     <div class="d-flex flex-wrap gap-3">
-            <ClimateMeasurmentsCard Temperature=@lastMeasurment.Temperature Humidity=@lastMeasurment.Humidity MeasurmentTime=@lastMeasurment.MeasurmentTime />
-            <ThermostatCard ThermostatSetting=25/>
+        @foreach (var component in components)
+        {
+            <DynamicComponent Type="@component.Type"
+                              Parameters="@component.Parameters" />
+        }
+
     </div>
 }
 
 @code {
-    //заметка для себя: будет брать из сессии по id, а при остутвии перезагружать сессию
-    //сессия будет содержать список комнат и их девайсов ,загружая их из специального сервиса при старте приложения
     private string Header { get; set; } = "Living Room";
 
     [Parameter]
     public string RoomGuid { get; set; }
 
-    public GetClimateMeasurmentResponse lastMeasurment;
-    private RenderFragment RenderFragment;
+    private List<CardMetadata> components;
+
+    private Timer timer;
 
     protected override async Task OnInitializedAsync()
     {
-        var getRoomsClient = httpClientFactory.CreateClient("roomClimate");
-        var timer = new System.Threading.Timer(
+        timer = new Timer(
             e =>
             {
                 InvokeAsync(async () => 
                 {
-                    lastMeasurment = await getRoomsClient.GetFromJsonAsync<GetClimateMeasurmentResponse>($"api/Measurments/3628ce16-3a8c-4ff7-94a6-4d57ca7fa65f");
-                    
+                    components = await roomDevicesProvider.GetRoomDevices(new Guid(RoomGuid));
                     StateHasChanged();
                 });
             },
@@ -50,20 +54,5 @@ else
             TimeSpan.Zero,
             TimeSpan.FromSeconds(2)
         );
-    }
-
-    public void LoadComponent(ChangeEventArgs e)
-    {
-       
-        RenderFragment = builder =>
-        {
-            var currentComponent = FilterByType(typeof(ComponentBase), e.Value.ToString());
-            if (currentComponent != null)
-            {
-                builder.OpenComponent(0, currentComponent);
-                builder.CloseComponent();
-            }
-        };
-        StateHasChanged();
     }
 }

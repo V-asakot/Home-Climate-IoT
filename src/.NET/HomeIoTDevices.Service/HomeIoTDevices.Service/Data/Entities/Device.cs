@@ -22,5 +22,14 @@ namespace HomeIoTDevices.Service.Data.Entities
             DeviceType = deviceType;
             IsActive = true;
         }
+
+        public Device(int roomId, string deviceName, DeviceType deviceType,Guid deviceGuid)
+        {
+            DeviceGuid = deviceGuid;
+            RoomId = roomId;
+            DeviceName = deviceName;
+            DeviceType = deviceType;
+            IsActive = true;
+        }
     }
 }

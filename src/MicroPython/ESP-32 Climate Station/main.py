@@ -39,11 +39,19 @@ broker_host = conf['mqtt_host']
 keep_alive = conf['keep_alive']
 mqttc = connect_to_rabbit(client_name, broker_host, keep_alive)
 
+device_name = conf['device_name']
+room_guid = conf['room_guid']
+device_type = conf['device_type']
+
+init_json = '{"deviceName":"%s", "deviceGuid":"%s", "roomGuid":"%s", "deviceType":%i}' % (device_name, device_guid, room_guid, device_type)
+print(init_json)
+mqttc.publish('device-initialized-event', init_json)
+
 while True:
     status, tmp, hum = temperature()
     if status:
         now = get_time()
-        json = '{ "deviceGuid": %i, "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (room_id, tmp, hum, str(get_time()))
-        mqttc.publish('climate-measured-event', json)
-        print(json)
+        measurment_json = '{ "deviceGuid": "%s", "temperature": %.2f, "humidity": %.2f, "measurmentTime": "%s" }' % (device_guid, tmp, hum, str(get_time()))
+        mqttc.publish('climate-measured-event', measurment_json)
+        print(measurment_json)
         sleep(sensor_delay)

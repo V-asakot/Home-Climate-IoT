@@ -24,7 +24,7 @@ namespace RoomsClimate.Service.Features.SetThermostat
             }
 
             thermostat.ThermostatValue = command.ThermostatValue;
-
+            await _dbContext.SaveChangesAsync();
             return true;
         }
     }

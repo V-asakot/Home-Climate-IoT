@@ -22,6 +22,11 @@ namespace RoomsClimate.Service.Features.AddDevice
                 return false;
             }
 
+            if(await _dbContext.Devices.AnyAsync(x => x.DeviceGuid == command.DeviceGuid))
+            {
+                return false;
+            }
+
             var device = new Device()
             {
                 DeviceGuid = command.DeviceGuid,
@@ -32,6 +37,24 @@ namespace RoomsClimate.Service.Features.AddDevice
             };
             
             await _dbContext.Devices.AddAsync(device);
+            await AddThermostatSettings(device, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+           
+            return true;
+        }
+
+        private async Task<bool> AddThermostatSettings(Device device, CancellationToken cancellationToken)
+        {
+            var defaultSettings = await _dbContext.ThermostatsSettings.FindAsync(1);
+            var deviceSettings = new ThermostatSettings()
+            {
+                Device = device,
+                ThermostatName = device.DeviceName,
+                ThermostatValue = defaultSettings!.ThermostatValue,
+                IsActive = true
+            };
+
+            await _dbContext.ThermostatsSettings.AddAsync(deviceSettings);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
         }

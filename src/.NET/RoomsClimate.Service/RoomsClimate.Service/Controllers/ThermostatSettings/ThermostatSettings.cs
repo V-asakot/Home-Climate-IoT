@@ -9,7 +9,7 @@ using RoomsClimate.Service.Features.SetThermostat;
 
 namespace RoomsClimate.Service.Controllers.ThermostatSettingsController
 {
-    [Route("api/[controller]")]
+    [Route("api/thermostats")]
     [ApiController]
     public class ThermostatSettingsController : ControllerBase
     {

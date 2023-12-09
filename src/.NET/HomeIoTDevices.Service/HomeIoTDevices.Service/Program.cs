@@ -1,6 +1,7 @@
 using HomeIoTDevices.Service.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using HomeIoTDevices.Service.Consumers.DeviceInitializedConsumer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddMassTransit(x =>
 {
     var rabbitConnectionString = builder.Configuration.GetSection("RabbitMqSettings")["ConnectionString"];
     x.SetKebabCaseEndpointNameFormatter();
+    x.AddConsumer<DeviceInitializedConsumer, DeviceInitializedConsumerDefinition>();
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host(rabbitConnectionString);
@@ -50,9 +52,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
-
-var context = app.Services.GetService<ApplicationDbContext>();
-context?.Database.EnsureCreated();
 
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {

@@ -23,6 +23,11 @@ namespace RoomsClimate.Service.Features.AddRoom
                 IsActive = true
             };
 
+            if(await _dbContext.Rooms.AnyAsync(x => x.RoomGuid == command.RoomGuid))
+            {
+                return false;
+            }
+
             await _dbContext.Rooms.AddAsync(room);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
